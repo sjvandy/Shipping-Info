@@ -16,42 +16,42 @@ Before you begin, ensure you have the following installed:
 * [Python 3.x](https://www.python.org/downloads/)
 * A free [Shippo API Key](https://goshippo.com/)
 
-## Setup and Installation
+## Getting Started
 
-Follow these steps to get the application running on your local machine.
+There are two ways to use this application: downloading the pre-built version (recommended for most users) or running it from the source code (for developers).
 
-**1. Clone the Repository**
-```bash
-git clone [URL_TO_YOUR_GITHUB_REPOSITORY]
-cd [REPOSITORY_FOLDER_NAME]
-```
+### For Users (Recommended)
 
-**2. Install Dependencies**
-This project uses a `requirements.txt` file to manage its dependencies. Run the following command in your terminal to install them:
-```bash
-pip install -r requirements.txt
-```
+The easiest way to get started is to download the latest pre-built application.
 
-**3. Set Up Your Environment File**
-The application requires a Shippo API key to function.
+1.  Navigate to the [**Releases Page**](URL_TO_YOUR_RELEASES_PAGE) for this repository.
+2.  Under the latest release, download the `.zip` asset (e.g., `shipping-calculator-v1.0.zip`).
+3.  Run the application. The first time you run it, the app will prompt you to enter your personal Shippo API key, which it will save for future use.
 
-* Create a new file in the root of the project directory named `.env`.
-* Open the `.env` file and add your Shippo API key in the following format:
+### For Developers (Running from Source)
 
-```
-SHIPPO_API_KEY="your_actual_shippo_api_key_goes_here"
-```
+If you wish to run or modify the source code directly:
 
-## How to Run the Application
-
-Once the setup is complete, you can run the application with the following command from the project's root directory:
-
-```bash
-python main.py
-```
-
-The application will then guide you through the process of entering the origin address, destination address, and package details.
-
+1.  Clone the repository:
+    ```bash
+    git clone [URL_TO_YOUR_GITHUB_REPOSITORY]
+    cd [REPOSITORY_FOLDER_NAME]
+    ```
+2.  Install the required dependencies:
+    ```bash
+    pip install -r requirements.txt
+    ```
+3.  Set Up Your Environment File
+   The application requires a Shippo API key to function.
+  * Create a new file in the root of the project directory named `.env`.
+  * Open the `.env` file and add your Shippo API key in the following format:
+    ```
+    SHIPPO_API_KEY="your_actual_shippo_api_key_goes_here"
+    ```
+4.  Run the application:
+    ```bash
+    python main.py
+    ```
 ## Author
 
 * **Steven Vandegrift**
