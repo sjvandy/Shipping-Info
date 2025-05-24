@@ -24,14 +24,29 @@ def get_address(prompt = ""):
 
 def create_parcel(prompt = ""):
     print(prompt)
-    return components.ParcelCreateRequest(
-        length = input("Length (in): "),
-        width = input("Width (in): "),
-        height = input("Height (in): "),
-        distance_unit = components.DistanceUnitEnum.IN,
-        weight = input("Weight (lbs): "),
-        mass_unit = components.WeightUnitEnum.LB
-    )
+    while True:
+        try:
+            length = input("Length (in): ")
+            width = input("Width (in): ")
+            height = input("Height (in): ")
+            weight = input("Weight (lbs): ")
+
+            # Confirm there will be no conversion errors during parcel creation
+            float(length)
+            float(width)
+            float(height)
+            float(weight)
+
+            return components.ParcelCreateRequest(
+                length = length,
+                width = width,
+                height = height,
+                distance_unit = components.DistanceUnitEnum.IN,
+                weight = weight,
+                mass_unit = components.WeightUnitEnum.LB
+            )
+        except:
+            print("One of your dimentions or weight were not a real number, try again.")
 
 if __name__ == "__main__":
 
@@ -62,9 +77,16 @@ if __name__ == "__main__":
     )
     clear_screen()
 
+    cheapest_rate = None
+
     # Show shipping results
     for rate in shipment.rates:
-        print(f"{rate.provider} {rate.servicelevel.name}\t\t\t\tEstimated Days:{rate.estimated_days}\tRate: ${rate.amount}")
+        print(f"Rate: ${rate.amount}\tEstimated Days:{rate.estimated_days}\t{rate.provider} {rate.servicelevel.name}")
+        if cheapest_rate == None or float(cheapest_rate.amount) > float(rate.amount):
+            cheapest_rate = rate
+    print(f"\nThe most affordable rate would be from {cheapest_rate.provider} {cheapest_rate.servicelevel.name} at a cost of ${cheapest_rate.amount}")
+
+    
 
     
 
