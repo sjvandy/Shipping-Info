@@ -6,6 +6,10 @@ import os
 from dotenv import load_dotenv
 from ascii import ascii_art
 
+def clear_screen():
+    os.system('clear')
+    print(ascii_art, end='\n')
+
 if __name__ == "__main__":
 
     # SETUP API
@@ -18,8 +22,7 @@ if __name__ == "__main__":
     shippo_sdk = shippo.Shippo(api_key_header=api_key)
 
     # SETUP USER INTERFACE
-    os.system('clear')
-    print(ascii_art, end='\n')
+    clear_screen()
     print("We will start by entering in the address you are sending from.")
     address_from = components.AddressCreateRequest(
         street1 = input("Street Address: "),
@@ -28,8 +31,7 @@ if __name__ == "__main__":
         zip = input("Zipcode: "),
         country = "US"
     )
-    os.system('clear')
-    print(ascii_art, end='\n')
+    clear_screen()
     print("Next, enter the address we are sending the package to.")
     address_to = components.AddressCreateRequest(
         street1 = input("Street Address: "),
@@ -38,8 +40,7 @@ if __name__ == "__main__":
         zip = input("Zipcode: "),
         country = "US"
     )
-    os.system('clear')
-    print(ascii_art, end='\n')
+    clear_screen()
     print("Fantastic, now we need to enter information about the parcel.")
     parcel = components.ParcelCreateRequest(
         length = input("Length (in): "),
@@ -60,8 +61,7 @@ if __name__ == "__main__":
             async_=False
         )
     )
-    os.system('clear')
-    print(ascii_art, end='\n')
+    clear_screen()
     for rate in shipment.rates:
         print(f"{rate.provider} {rate.servicelevel.name}\t\t\tEstimated Days:{rate.estimated_days}\t Rate: ${rate.amount}\t ")
 
