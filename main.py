@@ -10,6 +10,29 @@ def clear_screen():
     os.system('clear')
     print(ascii_art, end='\n')
 
+def get_address(prompt = ""):
+    print(prompt)
+    address = components.AddressCreateRequest(
+        street1 = input("Street Address: "),
+        city = input("City: "),
+        state = input("State: "),
+        zip = input("Zipcode: "),
+        country = "US"
+    )
+    clear_screen()
+    return address
+
+def create_parcel(prompt = ""):
+    print(prompt)
+    return components.ParcelCreateRequest(
+        length = input("Length (in): "),
+        width = input("Width (in): "),
+        height = input("Height (in): "),
+        distance_unit = components.DistanceUnitEnum.IN,
+        weight = input("Weight (lbs): "),
+        mass_unit = components.WeightUnitEnum.LB
+    )
+
 if __name__ == "__main__":
 
     # SETUP API
@@ -20,36 +43,12 @@ if __name__ == "__main__":
         raise ValueError("API key not found. Make sure you have a .env file with SHIPPO_API_KEY set.")
 
     shippo_sdk = shippo.Shippo(api_key_header=api_key)
-
-    # SETUP USER INTERFACE
+    
     clear_screen()
-    print("We will start by entering in the address you are sending from.")
-    address_from = components.AddressCreateRequest(
-        street1 = input("Street Address: "),
-        city = input("City: "),
-        state = input("State: "),
-        zip = input("Zipcode: "),
-        country = "US"
-    )
-    clear_screen()
-    print("Next, enter the address we are sending the package to.")
-    address_to = components.AddressCreateRequest(
-        street1 = input("Street Address: "),
-        city = input("City: "),
-        state = input("State: "),
-        zip = input("Zipcode: "),
-        country = "US"
-    )
-    clear_screen()
-    print("Fantastic, now we need to enter information about the parcel.")
-    parcel = components.ParcelCreateRequest(
-        length = input("Length (in): "),
-        width = input("Width (in): "),
-        height = input("Height (in): "),
-        distance_unit = components.DistanceUnitEnum.IN,
-        weight = input("Weight (lbs): "),
-        mass_unit = components.WeightUnitEnum.LB
-    )
+    
+    address_from = get_address("We will start by entering in the address you are sending from.")
+    address_to = get_address("Next, enter the address we are sending the package to.")
+    parcel = create_parcel("Fantastic, now we need to enter information about the parcel.")
 
     print("Loading Shipping Rates...")
     
@@ -62,8 +61,10 @@ if __name__ == "__main__":
         )
     )
     clear_screen()
+
+    # Show shipping results
     for rate in shipment.rates:
-        print(f"{rate.provider} {rate.servicelevel.name}\t\t\tEstimated Days:{rate.estimated_days}\t Rate: ${rate.amount}\t ")
+        print(f"{rate.provider} {rate.servicelevel.name}\t\t\t\tEstimated Days:{rate.estimated_days}\tRate: ${rate.amount}")
 
     
 
