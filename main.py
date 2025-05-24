@@ -49,42 +49,46 @@ def create_parcel(prompt = ""):
             print("One of your dimentions or weight were not a real number, try again.")
 
 if __name__ == "__main__":
+    while True:
+        # SETUP API
+        load_dotenv()
+        api_key = os.getenv("SHIPPO_API_KEY")
 
-    # SETUP API
-    load_dotenv()
-    api_key = os.getenv("SHIPPO_API_KEY")
+        if not api_key:
+            raise ValueError("API key not found. Make sure you have a .env file with SHIPPO_API_KEY set.")
 
-    if not api_key:
-        raise ValueError("API key not found. Make sure you have a .env file with SHIPPO_API_KEY set.")
+        shippo_sdk = shippo.Shippo(api_key_header=api_key)
+        
+        clear_screen()
+        
+        address_from = get_address("We will start by entering in the address you are sending from.")
+        address_to = get_address("Next, enter the address we are sending the package to.")
+        parcel = create_parcel("Fantastic, now we need to enter information about the parcel.")
 
-    shippo_sdk = shippo.Shippo(api_key_header=api_key)
-    
-    clear_screen()
-    
-    address_from = get_address("We will start by entering in the address you are sending from.")
-    address_to = get_address("Next, enter the address we are sending the package to.")
-    parcel = create_parcel("Fantastic, now we need to enter information about the parcel.")
-
-    print("Loading Shipping Rates...")
-    
-    shipment = shippo_sdk.shipments.create(
-        components.ShipmentCreateRequest(
-            address_from=address_from,
-            address_to=address_to,
-            parcels=[parcel],
-            async_=False
+        print("Loading Shipping Rates...")
+        
+        shipment = shippo_sdk.shipments.create(
+            components.ShipmentCreateRequest(
+                address_from=address_from,
+                address_to=address_to,
+                parcels=[parcel],
+                async_=False
+            )
         )
-    )
-    clear_screen()
+        clear_screen()
 
-    cheapest_rate = None
+        cheapest_rate = None
 
-    # Show shipping results
-    for rate in shipment.rates:
-        print(f"Rate: ${rate.amount}\tEstimated Days:{rate.estimated_days}\t{rate.provider} {rate.servicelevel.name}")
-        if cheapest_rate == None or float(cheapest_rate.amount) > float(rate.amount):
-            cheapest_rate = rate
-    print(f"\nThe most affordable rate would be from {cheapest_rate.provider} {cheapest_rate.servicelevel.name} at a cost of ${cheapest_rate.amount}")
+        # Show shipping results
+        for rate in shipment.rates:
+            print(f"Rate: ${rate.amount}\tEstimated Days:{rate.estimated_days}\t{rate.provider} {rate.servicelevel.name}")
+            if cheapest_rate == None or float(cheapest_rate.amount) > float(rate.amount):
+                cheapest_rate = rate
+        print(f"\nThe most affordable rate would be from {cheapest_rate.provider} {cheapest_rate.servicelevel.name} at a cost of ${cheapest_rate.amount}")
+
+        run_again = input("Would you like to check the price of another shipment? type 'yes', or hit Enter to exit the program...")
+        if run_again != 'yes':
+            break
 
     
 
