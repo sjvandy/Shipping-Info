@@ -22,7 +22,8 @@ There are two ways to use this application: downloading the pre-built version (r
 
 ### For Users (Recommended)
 
-The easiest way to get started is to download the latest pre-built application.
+The easiest way to get started is to download the latest pre-built application. 
+> [!Note] The release is currently only designed for Mac with ARM architecture, if you want to create a standalone, use the Source code along with Pyinstaller
 
 1.  Navigate to the [**Releases Page**](URL_TO_YOUR_RELEASES_PAGE) for this repository.
 2.  Under the latest release, download the `.zip` asset (e.g., `shipping-calculator-v1.0.zip`).
