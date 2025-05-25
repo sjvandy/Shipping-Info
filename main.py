@@ -55,7 +55,21 @@ if __name__ == "__main__":
         api_key = os.getenv("SHIPPO_API_KEY")
 
         if not api_key:
-            raise ValueError("API key not found. Make sure you have a .env file with SHIPPO_API_KEY set.")
+            print("--- Shippo API Key Not Found ---")
+            print("Please enter your Shippo API key to continue.")
+            print("You can get a free key from https://goshippo.com/")
+                        
+            new_api_key = input("Enter your API key: ")
+        
+            if new_api_key:                
+                with open('.env', 'w') as f:
+                    f.write(f'SHIPPO_API_KEY="{new_api_key}"')
+                                
+                api_key = new_api_key
+                print("\nAPI Key saved to .env file for future use. Continuing...")
+            else:                
+                print("No API key provided. Exiting.")
+                break
 
         shippo_sdk = shippo.Shippo(api_key_header=api_key)
         
